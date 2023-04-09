@@ -1,0 +1,145 @@
+* {
+    box-sizing: border-box;
+}
+
+#app {
+    font-family: "Roboto", sans-serif;
+    align-content: center;
+    padding: 1rem;
+}
+
+.button-form-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.issues {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.issue {
+    margin: 0 auto 2rem auto;
+    padding: 1em;
+    border-radius: 8px;
+    max-width: 100%;
+}
+
+.issue-opened {
+    box-shadow: 0 0 14px #50a450;
+}
+
+.issue-closed {
+    box-shadow: 0 0 14px #676767;
+}
+
+.issue-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.issue-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: auto 0;
+}
+
+.issue-text {
+    word-wrap: break-word;
+}
+
+.issue-form-div {
+    width: 40rem;
+    border-radius: 8px;
+}
+
+.input {
+    width: 100%;
+    height: 3rem;
+    font-size: 20px;
+    padding: 8px;
+    margin-bottom: 1rem;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #939393;
+}
+
+.textarea-div {
+    width: 100%;
+    height: 8rem;
+    margin-bottom: 0.5rem;
+}
+
+.textarea {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    resize: none;
+    padding: 8px;
+    border: none;
+}
+
+textarea, input {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.button {
+    border-radius: 4px;
+    background: transparent;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    border: none;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.button-form-create {
+    margin: 1rem auto;
+    width: 50%;
+    padding: 8px 12px;
+    background: #50a450;
+    color: white;
+}
+
+.button-create {
+    padding: 8px 12px;
+    background: #50a450;
+    color: white;
+}
+
+.button-div {
+    text-align: right;
+}
+
+.dialog {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    display: flex;
+}
+
+.my-modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.dialog-body {
+    margin: auto;
+    background: white;
+    border-radius: 8px;
+    min-height: 50px;
+    min-width: 300px;
+    padding: 1.5rem;
+}

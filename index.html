@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Learning Vue</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    <script src="https://unpkg.com/vue@next"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script src="UI/MyButton.js"></script>
+<script src="UI/MyInput.js"></script>
+<script src="UI/MyTextarea.js"></script>
+<script src="UI/MyDialog.js"></script>
+<script src="MyIssue.js"></script>
+<script src="IssueList.js"></script>
+<script src="IssueForm.js"></script>
+
+<script>
+    const {createApp} = Vue
+
+    const app = createApp({
+        components: {
+            IssueList, IssueForm, MyDialog, MyButton
+        },
+        template: `
+          <div class="button-form-div">
+          <my-button
+              @click="showCreateDialog"
+              class="button-form-create"
+          >
+            Создать задачу
+          </my-button>
+          </div>
+
+          <my-dialog v-model:show="dialogCreateVisibility">
+          <template v-slot:title>Создать задачу</template>
+          <template v-slot:body>
+            <issue-form
+                @save="saveIssue"
+            />
+          </template>
+          </my-dialog>
+
+          <my-dialog v-model:show="dialogEditVisibility">
+          <template v-slot:title>Редактировать задачу</template>
+          <template v-slot:body>
+            <issue-form
+                :issue="editableIssue"
+                @save="saveIssue"
+            >
+            </issue-form>
+          </template>
+          </my-dialog>
+
+          <issue-list
+              :issues="issues"
+              @remove="removeIssue"
+              @start-edit="startEditIssue"
+              @close="closeIssue"
+          />
+        `,
+        mounted() {
+          if (localStorage.getItem('issues')) {
+              try {
+                  this.issues = JSON.parse(localStorage.getItem('issues'));
+              } catch (e) {
+                  localStorage.removeItem('issues');
+              }
+          }
+        },
+        methods: {
+            saveIssue(issue) {
+                if (this.editableIssue === null) {
+                    issue.id = Date.now();
+                    issue.completed = false;
+                    this.issues.push(issue);
+                    this.dialogCreateVisibility = false;
+                } else {
+                    this.issues[this.issues.findIndex(i => i.id === this.editableIssue.id)] = issue;
+                    this.dialogEditVisibility = false;
+                    this.editableIssue = null;
+                }
+                this.saveIssues();
+            },
+            removeIssue(issue) {
+                this.issues = this.issues.filter(i => i.id !== issue.id);
+                this.saveIssues();
+            },
+            startEditIssue(issueId) {
+                this.dialogEditVisibility = true;
+                this.editableIssue = this.issues.find(i => i.id === issueId);
+            },
+            saveIssues() {
+                const parsed = JSON.stringify(this.issues);
+                localStorage.setItem('issues', parsed);
+            },
+            showCreateDialog() {
+                this.dialogCreateVisibility = true;
+            },
+            closeIssue(issueId) {
+                this.issues[this.issues.findIndex(i => i.id === issueId)].completed = true;
+            }
+        },
+        data() {
+            return {
+                issues: [
+                    {
+                        id: 1,
+                        title: 'Изучить javascript',
+                        body: 'Нужно его хорошо изучить',
+                        completed: false
+                    },
+                    {
+                        id: 2,
+                        title: 'Изучить Vue3',
+                        body: 'Тоже нужно хорошо изучить',
+                        completed: false
+                    }
+                ],
+                dialogCreateVisibility: false,
+                dialogEditVisibility: false,
+                editableIssue: null
+            }
+        }
+    }).mount('#app');
+</script>
+</html>
